@@ -3,18 +3,20 @@ import { createLinkedList, ListNode, printList } from "./createLinkedList.js";
 function addTwoList(l1, l2) {
   let dummy = new ListNode(null);
   let current = dummy;
-  let carry = undefined;
+  let carry = 0;
 
-  let left = l1;
-  let right = l2;
+  while (l1 || l2 || carry) {
+    const l1Value = l1 ? l1.value : 0;
+    const l2Value = l2 ? l2.value : 0;
 
-  while (left || right) {
-    const sum = left.value + right.value;
-    current.next = new ListNode(sum);
+    const sum = l1Value + l2Value + carry;
+
+    carry = Math.floor(sum / 10);
+    current.next = new ListNode(sum % 10);
     current = current.next;
 
-    left = left.next;
-    right = right.next;
+    l1 = l1 ? l1.next : null;
+    l2 = l2 ? l2.next : null;
   }
 
   return dummy.next;
